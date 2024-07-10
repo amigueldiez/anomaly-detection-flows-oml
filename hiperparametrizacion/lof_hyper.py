@@ -31,8 +31,8 @@ class AnomalyDetectionLOF:
 
     def train(self):
         # Divide dataset into train and test
-        # Obtain 10000 samples for training that contains benign samples remove from the dataset
-        # Select first 10000 rows where 'Label' is 0
+        # Obtain 500 samples for training that contains benign samples remove from the dataset
+        # Select first 500 rows where 'Label' is 0
         dataset_train = self.dataset.loc[self.dataset['Label'] == 0].iloc[:500]
 
         # Drop these rows from the original dataset
@@ -98,11 +98,6 @@ class AnomalyDetectionLOF:
         # Return the metrics
         return tp, tn, fp, fn
 
-
-    def test(self):
-        num = random.randint(0, 25)
-        time.sleep(num)  # Sleep for a random time between 0 and 25 seconds
-        return 2,3,4,5
 
     def __create_plot(self, dataset_test, anomalies):
         # Convert dataframe to numoy array

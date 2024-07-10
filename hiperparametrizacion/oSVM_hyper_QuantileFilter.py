@@ -26,8 +26,8 @@ class AnomalyDetectionoSVMQuantileFilter:
 
     def train(self):
         # Divide dataset into train and test
-        # Obtain 10000 samples for training that contains benign samples remove from the dataset
-        # Select first 10000 rows where 'Label' is 0
+        # Obtain 500 samples for training that contains benign samples remove from the dataset
+        # Select first 500 rows where 'Label' is 0
         dataset_train = self.dataset.loc[self.dataset['Label'] == 0].iloc[:500]
 
         # Drop these rows from the original dataset
@@ -68,7 +68,7 @@ class AnomalyDetectionoSVMQuantileFilter:
             score = self.model.score_one(row.to_dict())
             anomalo = self.model.classify(score)
             if not anomalo:
-                self.model.learn_one(row.to_dict())  # Aprende solo de datos benignos si lo deseas
+                self.model.learn_one(row.to_dict())  # Aprende solo de datos benignos
             label = dataset_test.loc[idx, "Label"]
             # print("Score: " + str(score) + " Label: " + str(label))
             if anomalo and label == 1:

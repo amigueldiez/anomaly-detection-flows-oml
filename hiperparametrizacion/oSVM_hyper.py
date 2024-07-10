@@ -22,8 +22,8 @@ class AnomalyDetectionoSVM:
 
     def train(self):
         # Divide dataset into train and test
-        # Obtain 10000 samples for training that contains benign samples remove from the dataset
-        # Select first 10000 rows where 'Label' is 0
+        # Obtain 500 samples for training that contains benign samples remove from the dataset
+        # Select first 500 rows where 'Label' is 0
         dataset_train = self.dataset.loc[self.dataset['Label'] == 0].iloc[:500]
 
         # Drop these rows from the original dataset
@@ -59,12 +59,10 @@ class AnomalyDetectionoSVM:
 
         for idx in dataset_test_no_labels.index:
             row = dataset_test_no_labels.loc[idx]
-            # print("Row: ", idx)
-            # print(dataset_test.loc[idx].to_dict())
             score = self.model.score_one(row.to_dict())
 
             if score >self.umbral_score:
-                self.model.learn_one(row.to_dict())  # Aprende solo de datos benignos si lo deseas
+                self.model.learn_one(row.to_dict())  # Aprende solo de datos benignos
             label = dataset_test.loc[idx, "Label"]
             # print("Score: " + str(score) + " Label: " + str(label))
             if score < self.umbral_score and label == 1:
